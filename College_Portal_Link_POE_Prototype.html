@@ -1,0 +1,1143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>College Portal Link — Student Academic Support Platform</title>
+  <style>
+    :root {
+      --navy-dark: #0f172a;
+      --navy-mid: #1e293b;
+      --blue-primary: #1d4ed8;
+      --blue-hover: #1e40af;
+      --blue-soft: #eff6ff;
+      --bg-page: #f8fafc;
+      --bg-card: #ffffff;
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --border-light: #e2e8f0;
+      --green-bg: #ecfdf5;
+      --green-border: #10b981;
+      --green-text: #065f46;
+      --amber-bg: #fef3c7;
+      --amber-text: #92400e;
+      --red-bg: #fee2e2;
+      --red-text: #991b1b;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background-color: var(--bg-page);
+      color: var(--text-main);
+      line-height: 1.5;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* Skip Link for WCAG 2.0 Operable */
+    .skip-link {
+      position: absolute;
+      top: -40px;
+      left: 16px;
+      background: var(--blue-primary);
+      color: #ffffff;
+      padding: 8px 16px;
+      border-radius: 4px;
+      z-index: 1000;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .skip-link:focus {
+      top: 12px;
+      outline: 3px solid #f59e0b;
+    }
+
+    /* Focus indicator for WCAG 2.0 */
+    a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
+      outline: 3px solid var(--blue-primary);
+      outline-offset: 2px;
+    }
+
+    /* Top Header */
+    header {
+      background-color: var(--navy-dark);
+      color: #ffffff;
+      padding: 14px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--navy-mid);
+    }
+
+    .brand {
+      display: flex;
+      flex-direction: column;
+    }
+    .brand-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+    }
+    .brand-title span {
+      color: #60a5fa;
+    }
+    .brand-sub {
+      font-size: 0.78rem;
+      color: #cbd5e1;
+    }
+
+    .user-area {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 0.9rem;
+    }
+    .avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background-color: #ffffff;
+      color: var(--navy-dark);
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+    }
+
+    /* Layout Container */
+    .app-shell {
+      display: flex;
+      flex: 1;
+    }
+
+    /* Sidebar Navigation */
+    nav.sidebar {
+      width: 240px;
+      background-color: var(--bg-card);
+      border-right: 1px solid var(--border-light);
+      padding: 20px 12px;
+      flex-shrink: 0;
+    }
+    .nav-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+      padding: 0 12px 10px;
+    }
+    .nav-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .nav-btn {
+      width: 100%;
+      text-align: left;
+      background: transparent;
+      border: none;
+      padding: 10px 12px;
+      border-radius: 8px;
+      font-size: 0.92rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: background 0.15s, color 0.15s;
+    }
+    .nav-btn:hover {
+      background-color: #f1f5f9;
+      color: var(--text-main);
+    }
+    .nav-btn[aria-current="page"] {
+      background-color: var(--blue-soft);
+      color: var(--blue-primary);
+      font-weight: 600;
+    }
+
+    /* Main Content Area */
+    main {
+      flex: 1;
+      padding: 28px 32px;
+      max-width: 1200px;
+    }
+
+    /* Live Status Banner for System Feedback */
+    .status-banner {
+      background-color: var(--blue-soft);
+      border: 1px solid #bfdbfe;
+      color: #1e3a8a;
+      padding: 12px 16px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.9rem;
+    }
+    .status-banner.hidden {
+      display: none;
+    }
+    .status-close {
+      background: none;
+      border: none;
+      color: #1e3a8a;
+      font-weight: 700;
+      cursor: pointer;
+      padding: 2px 6px;
+    }
+
+    .page-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .page-header h1 {
+      font-size: 1.65rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+    .page-header p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      margin-top: 2px;
+    }
+
+    .btn-primary {
+      background-color: var(--blue-primary);
+      color: #ffffff;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .btn-primary:hover {
+      background-color: var(--blue-hover);
+    }
+
+    .btn-secondary {
+      background-color: #ffffff;
+      color: var(--text-main);
+      border: 1px solid var(--border-light);
+      padding: 9px 14px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.88rem;
+      cursor: pointer;
+    }
+    .btn-secondary:hover {
+      background-color: #f8fafc;
+      border-color: #cbd5e1;
+    }
+
+    /* KPI Summary Cards */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .kpi-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      border-radius: 12px;
+      padding: 18px 20px;
+    }
+    .kpi-title {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+    .kpi-value {
+      font-size: 1.85rem;
+      font-weight: 700;
+      margin: 6px 0;
+      color: var(--text-main);
+    }
+    .kpi-meta {
+      font-size: 0.8rem;
+      color: var(--green-text);
+      font-weight: 500;
+    }
+
+    /* Content Two-Column Grid */
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 20px;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    .card h2 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 14px;
+      color: var(--text-main);
+    }
+
+    /* Task List */
+    .task-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border-light);
+      gap: 12px;
+    }
+    .task-item:last-child {
+      border-bottom: none;
+    }
+    .task-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .task-num {
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      background: var(--blue-soft);
+      color: var(--blue-primary);
+      font-weight: 700;
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .task-title {
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+    .task-sub {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+    .badge {
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    .badge-soon {
+      background: var(--amber-bg);
+      color: var(--amber-text);
+    }
+    .badge-upcoming {
+      background: var(--blue-soft);
+      color: var(--blue-primary);
+    }
+    .badge-done {
+      background: var(--green-bg);
+      color: var(--green-text);
+    }
+
+    /* Quick Actions Grid */
+    .quick-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .quick-btn {
+      background: #ffffff;
+      border: 1px solid var(--border-light);
+      border-radius: 10px;
+      padding: 14px 12px;
+      text-align: left;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.88rem;
+      color: var(--text-main);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      transition: border-color 0.15s, background 0.15s;
+    }
+    .quick-btn:hover {
+      border-color: var(--blue-primary);
+      background: var(--blue-soft);
+    }
+
+    /* Emotional Interaction Study Tip */
+    .tip-box {
+      background-color: var(--green-bg);
+      border: 1px solid #a7f3d0;
+      border-left: 4px solid var(--green-border);
+      color: var(--green-text);
+      padding: 14px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      margin-top: 10px;
+    }
+
+    /* Tables for Modules, Timetable, Results */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 8px;
+      font-size: 0.9rem;
+    }
+    th, td {
+      text-align: left;
+      padding: 12px;
+      border-bottom: 1px solid var(--border-light);
+    }
+    th {
+      background-color: #f1f5f9;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    /* Forms & Constraints (Safety / Error Prevention) */
+    .form-group {
+      margin-bottom: 14px;
+    }
+    label {
+      display: block;
+      font-weight: 600;
+      font-size: 0.88rem;
+      margin-bottom: 4px;
+    }
+    input[type="text"], select, textarea {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      font-size: 0.92rem;
+      font-family: inherit;
+    }
+    .error-msg {
+      color: var(--red-text);
+      background: var(--red-bg);
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-size: 0.84rem;
+      margin-top: 6px;
+      display: none;
+    }
+
+    /* Modal Dialog for Confirmation (Safety & Constraints) */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.55);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      z-index: 999;
+    }
+    .modal-backdrop.open {
+      display: flex;
+    }
+    .modal {
+      background: #ffffff;
+      border-radius: 12px;
+      max-width: 440px;
+      width: 100%;
+      padding: 24px;
+      box-shadow: 0 20px 25px -5px rgba(0,0,0,0.15);
+    }
+    .modal h3 {
+      font-size: 1.15rem;
+      margin-bottom: 8px;
+    }
+    .modal p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+    }
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+
+    /* View Switching */
+    .view-section {
+      display: none;
+    }
+    .view-section.active {
+      display: block;
+    }
+
+    /* Responsive Breakpoints */
+    @media (max-width: 900px) {
+      .dashboard-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    @media (max-width: 720px) {
+      .app-shell {
+        flex-direction: column;
+      }
+      nav.sidebar {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid var(--border-light);
+        padding: 10px 12px;
+        overflow-x: auto;
+      }
+      .nav-label {
+        display: none;
+      }
+      .nav-list {
+        flex-direction: row;
+        gap: 6px;
+      }
+      .nav-btn {
+        white-space: nowrap;
+        width: auto;
+      }
+      main {
+        padding: 20px 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <header>
+    <div class="brand">
+      <div class="brand-title">College<span>Portal Link</span></div>
+      <div class="brand-sub">Your college life, connected</div>
+    </div>
+    <div class="user-area">
+      <span>Student dashboard</span>
+      <div class="avatar" aria-label="Student initials SW">SW</div>
+    </div>
+  </header>
+
+  <div class="app-shell">
+    <nav class="sidebar" aria-label="Primary student portal navigation">
+      <div class="nav-label">Workspace</div>
+      <ul class="nav-list">
+        <li><button class="nav-btn" data-view="dashboard" aria-current="page">📊 Dashboard</button></li>
+        <li><button class="nav-btn" data-view="modules">📚 My modules</button></li>
+        <li><button class="nav-btn" data-view="timetable">📅 Timetable</button></li>
+        <li><button class="nav-btn" data-view="results">🎯 My results</button></li>
+        <li><button class="nav-btn" data-view="groups">👥 Study groups</button></li>
+        <li><button class="nav-btn" data-view="resources">🔗 Resources</button></li>
+        <li><button class="nav-btn" data-view="support">💙 Student support</button></li>
+      </ul>
+    </nav>
+
+    <main id="main-content" tabindex="-1">
+      <div id="status-banner" class="status-banner hidden" role="status" aria-live="polite">
+        <span id="status-text">Action completed.</span>
+        <button class="status-close" onclick="hideStatus()" aria-label="Dismiss status notification">✕</button>
+      </div>
+
+      <!-- VIEW 1: DASHBOARD -->
+      <section id="view-dashboard" class="view-section active" aria-labelledby="dash-heading">
+        <div class="page-header">
+          <div>
+            <h1 id="dash-heading">Good morning, Samkelo</h1>
+            <p>Here is your academic overview for this week.</p>
+          </div>
+          <button class="btn-primary" onclick="switchView('timetable', 'Opened weekly class timetable.')">View timetable</button>
+        </div>
+
+        <div class="kpi-grid">
+          <div class="kpi-card">
+            <div class="kpi-title">Active modules</div>
+            <div class="kpi-value">4</div>
+            <div class="kpi-meta">● All modules available</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-title">Upcoming deadlines</div>
+            <div class="kpi-value" id="deadline-count">3</div>
+            <div class="kpi-meta">● Next due: 24 October</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-title">Unread announcements</div>
+            <div class="kpi-value">2</div>
+            <div class="kpi-meta">● Check college updates</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-title">Study group</div>
+            <div class="kpi-value" id="group-count">1</div>
+            <div class="kpi-meta">● Next meeting: Thursday</div>
+          </div>
+        </div>
+
+        <div class="dashboard-grid">
+          <div>
+            <div class="card">
+              <h2>Upcoming tasks</h2>
+              <div class="task-item">
+                <div class="task-left">
+                  <div class="task-num">1</div>
+                  <div>
+                    <div class="task-title">Human Computer Interaction</div>
+                    <div class="task-sub">POE Final Report &amp; Prototype · Due 24 October</div>
+                  </div>
+                </div>
+                <div style="display:flex; align-items:center; gap:8px;">
+                  <span class="badge badge-soon" id="badge-1">Soon</span>
+                  <button class="btn-secondary" onclick="toggleTaskDone(1, this)">Mark done</button>
+                </div>
+              </div>
+
+              <div class="task-item">
+                <div class="task-left">
+                  <div class="task-num">2</div>
+                  <div>
+                    <div class="task-title">Programming</div>
+                    <div class="task-sub">Practical exercise · Due 27 October</div>
+                  </div>
+                </div>
+                <div style="display:flex; align-items:center; gap:8px;">
+                  <span class="badge badge-upcoming" id="badge-2">Upcoming</span>
+                  <button class="btn-secondary" onclick="toggleTaskDone(2, this)">Mark done</button>
+                </div>
+              </div>
+
+              <div class="task-item">
+                <div class="task-left">
+                  <div class="task-num">3</div>
+                  <div>
+                    <div class="task-title">Systems Analysis</div>
+                    <div class="task-sub">Read chapter notes · Due 30 October</div>
+                  </div>
+                </div>
+                <div style="display:flex; align-items:center; gap:8px;">
+                  <span class="badge badge-upcoming" id="badge-3">Upcoming</span>
+                  <button class="btn-secondary" onclick="toggleTaskDone(3, this)">Mark done</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="card">
+              <h2>Latest announcements</h2>
+              <div class="task-item">
+                <div class="task-left">
+                  <div class="task-num">i</div>
+                  <div>
+                    <div class="task-title">Library study support</div>
+                    <div class="task-sub">Drop-in referencing and academic writing support is available this week.</div>
+                  </div>
+                </div>
+              </div>
+              <div class="task-item">
+                <div class="task-left">
+                  <div class="task-num">•</div>
+                  <div>
+                    <div class="task-title">Semester calendar updated</div>
+                    <div class="task-sub">Review your upcoming POE submission and assessment dates.</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div class="card">
+              <h2>Quick actions</h2>
+              <div class="quick-grid">
+                <button class="quick-btn" onclick="switchView('modules', 'Navigated to My Modules.')">
+                  <span>📚</span>
+                  <span>My modules</span>
+                </button>
+                <button class="quick-btn" onclick="switchView('results', 'Navigated to My Results.')">
+                  <span>🎯</span>
+                  <span>View results</span>
+                </button>
+                <button class="quick-btn" onclick="switchView('groups', 'Navigated to Study Groups.')">
+                  <span>👥</span>
+                  <span>Find a study group</span>
+                </button>
+                <button class="quick-btn" onclick="switchView('support', 'Navigated to Student Support.')">
+                  <span>💙</span>
+                  <span>Get support</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="card">
+              <h2>Study tip</h2>
+              <p class="task-sub">Break large assignments into smaller tasks and check your deadlines regularly.</p>
+              <div class="tip-box">
+                You can do this, one step at a time.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- VIEW 2: MY MODULES -->
+      <section id="view-modules" class="view-section" aria-labelledby="mod-heading">
+        <div class="page-header">
+          <div>
+            <h1 id="mod-heading">My modules</h1>
+            <p>Enrolled semester modules, lecturers, and course material access.</p>
+          </div>
+          <button class="btn-secondary" onclick="switchView('dashboard', 'Returned to Dashboard.')">← Back to Dashboard</button>
+        </div>
+
+        <div class="card">
+          <h2>Active Semester Modules (4)</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Code</th>
+                <th>Module Name</th>
+                <th>Lecturer</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>HCIN6212</td>
+                <td>Human-Computer Interaction</td>
+                <td>Dr. N. Khumalo</td>
+                <td><span class="badge badge-done">Active</span></td>
+                <td><button class="btn-secondary" onclick="showStatus('Opened study guide and POE rubric for Human-Computer Interaction.')">Open materials</button></td>
+              </tr>
+              <tr>
+                <td>PROG6212</td>
+                <td>Programming 2B</td>
+                <td>Mr. T. Naidoo</td>
+                <td><span class="badge badge-done">Active</span></td>
+                <td><button class="btn-secondary" onclick="showStatus('Opened lab exercises for Programming 2B.')">Open materials</button></td>
+              </tr>
+              <tr>
+                <td>SAND6212</td>
+                <td>Systems Analysis and Design</td>
+                <td>Ms. L. Mokoena</td>
+                <td><span class="badge badge-done">Active</span></td>
+                <td><button class="btn-secondary" onclick="showStatus('Opened UML diagrams and chapter notes for Systems Analysis.')">Open materials</button></td>
+              </tr>
+              <tr>
+                <td>DBAS6212</td>
+                <td>Database Systems</td>
+                <td>Mr. R. van Wyk</td>
+                <td><span class="badge badge-done">Active</span></td>
+                <td><button class="btn-secondary" onclick="showStatus('Opened SQL practice sheets for Database Systems.')">Open materials</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- VIEW 3: TIMETABLE -->
+      <section id="view-timetable" class="view-section" aria-labelledby="time-heading">
+        <div class="page-header">
+          <div>
+            <h1 id="time-heading">Weekly timetable</h1>
+            <p>Scheduled lectures, practical labs, and study group sessions.</p>
+          </div>
+          <button class="btn-secondary" onclick="switchView('dashboard', 'Returned to Dashboard.')">← Back to Dashboard</button>
+        </div>
+
+        <div class="card">
+          <h2>Semester 2 Class Schedule</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Day</th>
+                <th>Time</th>
+                <th>Module</th>
+                <th>Venue / Mode</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Monday</td>
+                <td>09:00 – 10:30</td>
+                <td>Human-Computer Interaction</td>
+                <td>Lecture Hall B2</td>
+              </tr>
+              <tr>
+                <td>Tuesday</td>
+                <td>11:00 – 13:00</td>
+                <td>Programming 2B (Practical)</td>
+                <td>Computer Lab 4</td>
+              </tr>
+              <tr>
+                <td>Wednesday</td>
+                <td>10:00 – 11:30</td>
+                <td>Systems Analysis and Design</td>
+                <td>Online Live Stream</td>
+              </tr>
+              <tr>
+                <td>Thursday</td>
+                <td>14:00 – 15:30</td>
+                <td>HCI Study Group Session</td>
+                <td>Library Discussion Room 3</td>
+              </tr>
+              <tr>
+                <td>Friday</td>
+                <td>09:00 – 10:30</td>
+                <td>Database Systems</td>
+                <td>Lecture Hall A1</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- VIEW 4: MY RESULTS -->
+      <section id="view-results" class="view-section" aria-labelledby="res-heading">
+        <div class="page-header">
+          <div>
+            <h1 id="res-heading">My results</h1>
+            <p>Continuous assessment marks and formative feedback summary.</p>
+          </div>
+          <button class="btn-secondary" onclick="switchView('dashboard', 'Returned to Dashboard.')">← Back to Dashboard</button>
+        </div>
+
+        <div class="card">
+          <h2>Assessment Breakdown (Demonstration Data)</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Module</th>
+                <th>Assessment</th>
+                <th>Weight</th>
+                <th>Mark</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Human-Computer Interaction</td>
+                <td>Part 1 – Research Proposal</td>
+                <td>25%</td>
+                <td>78%</td>
+                <td><span class="badge badge-done">Distinction</span></td>
+              </tr>
+              <tr>
+                <td>Human-Computer Interaction</td>
+                <td>Part 2 – Prototype &amp; Report</td>
+                <td>30%</td>
+                <td>74%</td>
+                <td><span class="badge badge-done">Passed</span></td>
+              </tr>
+              <tr>
+                <td>Programming 2B</td>
+                <td>Assignment 1</td>
+                <td>25%</td>
+                <td>81%</td>
+                <td><span class="badge badge-done">Distinction</span></td>
+              </tr>
+              <tr>
+                <td>Systems Analysis and Design</td>
+                <td>Test 1</td>
+                <td>20%</td>
+                <td>69%</td>
+                <td><span class="badge badge-done">Passed</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- VIEW 5: STUDY GROUPS (SOCIAL INTERACTION) -->
+      <section id="view-groups" class="view-section" aria-labelledby="grp-heading">
+        <div class="page-header">
+          <div>
+            <h1 id="grp-heading">Study groups &amp; peer collaboration</h1>
+            <p>Connect with classmates, share notes, and collaborate safely.</p>
+          </div>
+          <button class="btn-secondary" onclick="switchView('dashboard', 'Returned to Dashboard.')">← Back to Dashboard</button>
+        </div>
+
+        <div class="dashboard-grid">
+          <div class="card">
+            <h2>Available Peer Study Groups</h2>
+            <div class="task-item">
+              <div>
+                <div class="task-title">HCI Prototype &amp; Usability Review Group</div>
+                <div class="task-sub">Meets Thursdays at 14:00 · Library Room 3 · 6 members</div>
+              </div>
+              <span class="badge badge-done">Joined</span>
+            </div>
+
+            <div class="task-item">
+              <div>
+                <div class="task-title">Programming 2B Coding Buddies</div>
+                <div class="task-sub">Meets Wednesdays at 15:00 · Online · 8 members</div>
+              </div>
+              <button class="btn-primary" id="join-prog-btn" onclick="openConfirmModal('Programming 2B Coding Buddies')">Join group</button>
+            </div>
+
+            <div class="task-item">
+              <div>
+                <div class="task-title">Database SQL Peer Tutoring</div>
+                <div class="task-sub">Meets Fridays at 12:00 · Lab 2 · 5 members</div>
+              </div>
+              <button class="btn-secondary" onclick="openConfirmModal('Database SQL Peer Tutoring')">Join group</button>
+            </div>
+          </div>
+
+          <div class="card">
+            <h2>Peer Discussion Board</h2>
+            <p class="task-sub" style="margin-bottom:12px;">Post a question to your HCI study group (moderated for respectful academic conduct).</p>
+            <form onsubmit="submitGroupMessage(event)" novalidate>
+              <div class="form-group">
+                <label for="group-msg">Message to group</label>
+                <textarea id="group-msg" rows="3" placeholder="e.g., Has anyone tested keyboard navigation on the sidebar?"></textarea>
+                <div id="group-msg-error" class="error-msg" role="alert">Please enter a message of at least 5 characters before posting.</div>
+              </div>
+              <button type="submit" class="btn-primary">Post message</button>
+            </form>
+            <div id="group-feed" style="margin-top:16px;">
+              <div class="task-item">
+                <div>
+                  <div class="task-title">Thabo M. · 2 hours ago</div>
+                  <div class="task-sub">Reminder: Bring your WCAG 2.0 contrast checklists to Thursday's session!</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- VIEW 6: RESOURCES -->
+      <section id="view-resources" class="view-section" aria-labelledby="rsc-heading">
+        <div class="page-header">
+          <div>
+            <h1 id="rsc-heading">Academic resources</h1>
+            <p>Guides, referencing manuals, and digital library tools.</p>
+          </div>
+          <button class="btn-secondary" onclick="switchView('dashboard', 'Returned to Dashboard.')">← Back to Dashboard</button>
+        </div>
+
+        <div class="kpi-grid">
+          <div class="card">
+            <h2>Harvard Referencing Guide</h2>
+            <p class="task-sub" style="margin-bottom:12px;">Official citation and reference list formatting standards for academic reports.</p>
+            <button class="btn-secondary" onclick="showStatus('Downloaded Harvard Referencing Quick Guide (PDF).')">Download guide</button>
+          </div>
+          <div class="card">
+            <h2>WCAG 2.0 Accessibility Checklist</h2>
+            <p class="task-sub" style="margin-bottom:12px;">Level AA contrast, keyboard focus, and screen-reader verification checklist.</p>
+            <button class="btn-secondary" onclick="showStatus('Opened WCAG 2.0 Level AA Student Checklist.')">Open checklist</button>
+          </div>
+          <div class="card">
+            <h2>Digital Library &amp; Journals</h2>
+            <p class="task-sub" style="margin-bottom:12px;">Search peer-reviewed HCI, software engineering, and UX textbooks.</p>
+            <button class="btn-secondary" onclick="showStatus('Connected to Campus Digital Library Portal.')">Launch library</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- VIEW 7: STUDENT SUPPORT (CONSTRAINTS, SAFETY & EMOTIONAL INTERACTION) -->
+      <section id="view-support" class="view-section" aria-labelledby="sup-heading">
+        <div class="page-header">
+          <div>
+            <h1 id="sup-heading">Student support &amp; wellbeing</h1>
+            <p>We are here to help with academic advising, technical issues, or wellness support.</p>
+          </div>
+          <button class="btn-secondary" onclick="switchView('dashboard', 'Returned to Dashboard.')">← Back to Dashboard</button>
+        </div>
+
+        <div class="dashboard-grid">
+          <div class="card">
+            <h2>Request Support or Advising</h2>
+            <form onsubmit="submitSupportForm(event)" novalidate>
+              <div class="form-group">
+                <label for="support-category">Support category (required)</label>
+                <select id="support-category">
+                  <option value="">-- Select a category --</option>
+                  <option value="Academic Advising">Academic Advising &amp; Study Skills</option>
+                  <option value="Technical Support">Portal / IT Technical Support</option>
+                  <option value="Wellness Counselling">Confidential Student Wellness &amp; Counselling</option>
+                </select>
+                <div id="cat-error" class="error-msg" role="alert">Please select a support category so we can route your request properly.</div>
+              </div>
+
+              <div class="form-group">
+                <label for="support-details">How can we support you? (required)</label>
+                <textarea id="support-details" rows="4" placeholder="Describe your question or preferred consultation time..."></textarea>
+                <div id="det-error" class="error-msg" role="alert">Please provide a short description (at least 10 characters) so an advisor can prepare.</div>
+              </div>
+
+              <button type="submit" class="btn-primary">Submit support request</button>
+            </form>
+          </div>
+
+          <div class="card">
+            <h2>Direct Support Channels</h2>
+            <div class="tip-box" style="margin-bottom:14px;">
+              Need urgent help? Free, confidential student counselling is available Monday–Friday, 08:00–17:00.
+            </div>
+            <p class="task-sub" style="margin-bottom:8px;"><strong>Student Helpdesk:</strong> support@collegeportallink.ac.za</p>
+            <p class="task-sub" style="margin-bottom:8px;"><strong>Wellness Line:</strong> 0800 555 247 (Toll-Free)</p>
+            <p class="task-sub"><strong>Campus Walk-In:</strong> Student Centre, Room 104</p>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Confirmation Modal (Design Principle: Safety & Constraints) -->
+  <div id="confirm-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal">
+      <h3 id="modal-title">Confirm Study Group Enrolment</h3>
+      <p id="modal-desc">Are you sure you want to join this study group? Your student name and module enrolment will be visible to group members.</p>
+      <div class="modal-actions">
+        <button class="btn-secondary" onclick="closeConfirmModal()">Cancel</button>
+        <button class="btn-primary" onclick="confirmJoinGroup()">Confirm &amp; Join</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let pendingGroup = "";
+    let joinedCount = 1;
+    let openDeadlines = 3;
+
+    function showStatus(message) {
+      const banner = document.getElementById("status-banner");
+      const text = document.getElementById("status-text");
+      text.textContent = message;
+      banner.classList.remove("hidden");
+    }
+
+    function hideStatus() {
+      document.getElementById("status-banner").classList.add("hidden");
+    }
+
+    function switchView(viewId, statusMsg) {
+      document.querySelectorAll(".view-section").forEach(sec => sec.classList.remove("active"));
+      const target = document.getElementById("view-" + viewId);
+      if (target) target.classList.add("active");
+
+      document.querySelectorAll(".nav-btn").forEach(btn => {
+        if (btn.dataset.view === viewId) {
+          btn.setAttribute("aria-current", "page");
+        } else {
+          btn.removeAttribute("aria-current");
+        }
+      });
+
+      if (statusMsg) showStatus(statusMsg);
+    }
+
+    document.querySelectorAll(".nav-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const label = btn.textContent.trim();
+        switchView(btn.dataset.view, "Switched to " + label + ".");
+      });
+    });
+
+    function toggleTaskDone(id, btn) {
+      const badge = document.getElementById("badge-" + id);
+      if (badge.textContent !== "Completed") {
+        badge.textContent = "Completed";
+        badge.className = "badge badge-done";
+        btn.textContent = "Undo";
+        openDeadlines = Math.max(0, openDeadlines - 1);
+        document.getElementById("deadline-count").textContent = openDeadlines;
+        showStatus("Task marked as completed. Great progress!");
+      } else {
+        badge.textContent = id === 1 ? "Soon" : "Upcoming";
+        badge.className = id === 1 ? "badge badge-soon" : "badge badge-upcoming";
+        btn.textContent = "Mark done";
+        openDeadlines += 1;
+        document.getElementById("deadline-count").textContent = openDeadlines;
+        showStatus("Task restored to active deadlines.");
+      }
+    }
+
+    function openConfirmModal(groupName) {
+      pendingGroup = groupName;
+      document.getElementById("modal-desc").textContent =
+        "Confirm joining '" + groupName + "'? Your student profile name will be shared with fellow group members.";
+      document.getElementById("confirm-modal").classList.add("open");
+    }
+
+    function closeConfirmModal() {
+      document.getElementById("confirm-modal").classList.remove("open");
+      pendingGroup = "";
+    }
+
+    function confirmJoinGroup() {
+      if (pendingGroup) {
+        joinedCount += 1;
+        document.getElementById("group-count").textContent = joinedCount;
+        showStatus("Successfully joined '" + pendingGroup + "'.");
+      }
+      closeConfirmModal();
+    }
+
+    function submitGroupMessage(e) {
+      e.preventDefault();
+      const input = document.getElementById("group-msg");
+      const err = document.getElementById("group-msg-error");
+      if (input.value.trim().length < 5) {
+        err.style.display = "block";
+        input.focus();
+        return;
+      }
+      err.style.display = "none";
+      const feed = document.getElementById("group-feed");
+      const item = document.createElement("div");
+      item.className = "task-item";
+      item.innerHTML = `<div><div class="task-title">Samkelo M. (You) · Just now</div><div class="task-sub"></div></div>`;
+      item.querySelector(".task-sub").textContent = input.value.trim();
+      feed.prepend(item);
+      input.value = "";
+      showStatus("Your message was posted to the HCI Study Group board.");
+    }
+
+    function submitSupportForm(e) {
+      e.preventDefault();
+      const cat = document.getElementById("support-category");
+      const det = document.getElementById("support-details");
+      const catErr = document.getElementById("cat-error");
+      const detErr = document.getElementById("det-error");
+      let valid = true;
+
+      if (!cat.value) {
+        catErr.style.display = "block";
+        valid = false;
+      } else {
+        catErr.style.display = "none";
+      }
+
+      if (det.value.trim().length < 10) {
+        detErr.style.display = "block";
+        valid = false;
+      } else {
+        detErr.style.display = "none";
+      }
+
+      if (!valid) return;
+
+      showStatus("Support request submitted under '" + cat.value + "'. An advisor will reply within 24 hours.");
+      cat.value = "";
+      det.value = "";
+    }
+  </script>
+</body>
+</html>
